@@ -8,16 +8,20 @@ var app = require('../app');
 var debug = require('debug')('first-node-js:server');
 var http = require('http');
 
-/**
- * Get port from environment and store in Express.
- */
+const Database = require("../db/Database")
 
-var port = normalizePort(process.env.PORT || '3000');
+const { CONNECTION_STRING, PORT } = require("../config")
+
+/*
+*Get port from environment and store in Express.
+*/
+
+var port = normalizePort(PORT);
 app.set('port', port);
 
 /**
- * Create HTTP server.
- */
+*Create HTTP server.
+*/
 
 var server = http.createServer(app);
 
@@ -87,4 +91,6 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+
+  new Database().connect({ CONNECTION_STRING })
 }
